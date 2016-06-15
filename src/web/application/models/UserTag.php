@@ -14,29 +14,24 @@ class UserTagModel extends Model{
     public function save(Array $data){
 
         $where = ['openid'=>$data['openid']];
-	    $uid = $this->get('userid',$where);
+	    $usertag = $this->get('*',$where);
 
         //如果找不到用户数据, 执行注册流程
-        if(empty($uid)){
-            //插入至微信用户表
+        if(empty($usertag)){
+            //插入至用户画像表
             return $this->reg($data);
 
         }
 
-        //这两项不允许修改, 也不存在修改的可能
-        unset($data['openid']);
-        unset($data['unionid']);
-
         $data['update_time'] = time_format();
-        return $this->update($data,['userid'=>$uid]);
+        return $this->update($data,['id'=>$usertag['id']]);
     }
 
     public function reg(Array $data){
 
-        if(empty($data['headimgurl'])){
-            $data['headimgurl'] = DOMAIN.'/misc/images/avator.jpg';
-        }
+
         $data['insert_time'] = time_format();
+        $data['update_time'] = time_format();
         return $this->insert($data);
     }
 

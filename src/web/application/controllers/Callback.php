@@ -81,37 +81,6 @@ class CallbackController extends Core\Wechat  {
                 }
                 $this->_subscribe($userinfo);
 
-                $parent_id = $this->wechat->getRevSceneId();
-                $club = M('t_wx_spread(a)')->get(
-                    [
-                        '[>]t_club(b)'=>['a.p_wx_id'=>'wx_id']
-                    ],
-                    ['b.club_name'],
-                    [
-                        'a.unionid'=>$userinfo['unionid']
-                    ]
-                );
-                if ($parent_id && $club) {
-                    $this->wechat->news([
-                        [
-                            'Title'=>'亲爱的'.$userinfo['nickname'].'，恭喜你通过加入' . $club['club_name']
-                                . '很开心加入我们，成为我们的伙伴！！',
-                            'Description'=>'',
-                            'PicUrl'=>$userinfo['headimgurl'],
-                            'Url'=>DOMAIN,
-                        ],
-                    ])->reply();
-                } else {
-                    $this->wechat->news([
-                        [
-                            'Title'=>'亲爱的'.$userinfo['nickname'].'，欢迎您关注健康+俱乐部，点击进入首页',
-                            'Description'=>'',
-                            'PicUrl'=>$userinfo['headimgurl'],
-                            'Url'=>DOMAIN,
-                        ],
-                    ])->reply();
-                }
-                
 
                 break;
             case Wechat::EVENT_UNSUBSCRIBE:
@@ -131,8 +100,6 @@ class CallbackController extends Core\Wechat  {
         //用户注册
         if($model->save($userinfo)){
             SeasLog::debug('微信关注用户信息保存成功了!');
-            //保存用户画像
-
         }else{
             SeasLog::debug(M()->last_query());
             SeasLog::error('出事了,关注完之后竟然在最后一步出错了,没保存成功!');
