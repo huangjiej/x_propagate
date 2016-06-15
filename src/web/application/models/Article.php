@@ -16,6 +16,11 @@ class ArticleModel extends Model{
         return $this->get('*',['id'=>$articleid]);
     }
 
+    public function getList(){
+
+        return $this->select('*');
+    }
+
 
 
 }

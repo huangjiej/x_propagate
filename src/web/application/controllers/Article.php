@@ -14,10 +14,16 @@ use Core\Mall;
  */
 class ArticleController extends Mall {
 
-    //用户绑定
-    public function showAction() {
+    public function listAction(){
         $article = new ArticleModel();
-        $item =$article->getDetail(1);
+        $list =$article->getList();
+        $this->assign('list',$list);
+    }
+
+    public function showAction() {
+        $articleid=I('articleid');
+        $article = new ArticleModel();
+        $item =$article->getDetail($articleid);
         $this->assign('item',$item);
     }
 
