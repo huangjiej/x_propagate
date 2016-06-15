@@ -17,12 +17,16 @@ class MessageController extends Core\Wechat  {
         $msg = [
             'button'=>[[
                 'type'=>'view',
-                'name'=>'历史消息',
-                'url'=>'http://paas.fengniao.info/info/history',
+                'name'=>'文章列表',
+                'url'=>'http://xp.fengniao.info/article/list',
             ],[
                 'type'=>'view',
-                'name'=>'绑定账号',
-                'url'=>'http://paas.fengniao.info/bind/bind',
+                'name'=>'传播图',
+                'url'=>'http://xp.fengniao.info/propagate/index',
+            ],[
+                'type'=>'view',
+                'name'=>'用户画像',
+                'url'=>'http://xp.fengniao.info/user/tag',
             ]]
         ];
         $result = $this->wechat->createMenu($msg);
