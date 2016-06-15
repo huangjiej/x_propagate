@@ -9,9 +9,16 @@
 </div>
 <block name="script">
     <script type="text/javascript">
+        var localhref=window.location.href;
+        var arr=localhref.split('?');
+        if(!arr[1]){
+            localhref=localhref+"?userid=<?=$item['userid']?>";
+        }else{
+            localhref=localhref+"&userid=<?=$item['userid']?>";
+        }
         wx.onMenuShareTimeline({
             title: '<?=$item['title']?>', // 分享标题
-            link: window.location.href, // 分享链接
+            link: localhref, // 分享链接
             imgUrl: '', // 分享图标
             success: function () {
                 // 用户确认分享后执行的回调函数

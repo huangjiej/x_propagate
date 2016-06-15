@@ -131,6 +131,8 @@ class CallbackController extends Core\Wechat  {
         //用户注册
         if($model->save($userinfo)){
             SeasLog::debug('微信关注用户信息保存成功了!');
+            //保存用户画像
+
         }else{
             SeasLog::debug(M()->last_query());
             SeasLog::error('出事了,关注完之后竟然在最后一步出错了,没保存成功!');

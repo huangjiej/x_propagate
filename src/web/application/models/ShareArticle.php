@@ -13,8 +13,8 @@ class ShareArticleModel extends Model{
 
     public function save(Array $data){
 
-        $where = ['unionid'=>$data['unionid']];
-        $uid = $this->get('userid',$where);
+        $where = ['article_id'=>$data['article_id'],'userid'=>$data['userid']];
+        $uid = $this->get('*',$where);
 
         //如果找不到用户数据, 执行注册流程
         if(empty($uid)){

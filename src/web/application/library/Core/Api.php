@@ -59,7 +59,7 @@ class Api extends Controller_Abstract
 
         $this->config   = Registry::get('config');
         $this->user     = session('user_auth');
-        $this->wechat_setting = M('t_wechat_setting')->get('*',['id'=>1]);
+        $this->wechat_setting = M('t_wechat_setting')->get('*',['id'=>7]);
         //var_dump($this->wechat_setting);
         $this->wechat   = new \Wechat($this->wechat_setting);
 

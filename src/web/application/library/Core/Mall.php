@@ -17,7 +17,7 @@ class Mall extends Api {
     public function init(){
 
         $this->user     = session('user_auth');
-        $this->wechat_setting = M('t_wechat_setting')->get('*',['id'=>1]);
+        $this->wechat_setting = M('t_wechat_setting')->get('*',['id'=>7]);
         $this->wechat   = new \Wechat($this->wechat_setting);
         if(!is_not_wx() && empty($this->user)){
 //            if(!isset($_GET['hash'])){
