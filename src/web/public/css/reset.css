@@ -1,0 +1,36 @@
+@charset "utf-8";
+*{-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;}
+body,ul,ol,dl,dd,h1,h2,h3,h4,h5,h6,p,pre,blockquote,hr,figure{margin:0;padding:0;font-size:100%;vertical-align:baseline;}
+ul,ol{list-style:none}
+h1,h2,h3,h4,h5,h6{font-weight:normal;}
+em,cite,address,optgroup,i{font-style:normal}
+body{overflow-x:hidden;-webkit-overflow-scrolling:touch;}
+a{text-decoration:none;-webkit-tap-highlight-color:rgba(0,0,0,.5);outline:none;color: #000;}
+a:active{outline:0;opacity: .5;}
+table{border-collapse:collapse;border-spacing:0;}
+article,aside,dialog,figure,footer,header,hgroup,nav,section{display:block;}
+audio,canvas,video{display:inline-block;*display:inline;*zoom:1;}
+button,input{-webkit-appearance:none;outline:none}
+button,input,optgroup,select,textarea{color:inherit;font:inherit;margin:0;line-height:normal;}
+input::-webkit-input-placeholder,textarea::-webkit-input-placeholder{color:#ccc;}
+textarea{resize:none;}
+img{border:0;vertical-align:middle;}
+html{font-size:22px}
+@media only screen and (min-width:321px){
+	html{font-size:24px}
+}
+@media only screen and (min-width:376px){
+	html{font-size:26px!important}
+}
+@media only screen and (min-width:641px){
+	html{font-size:30px!important}
+}
+
+body{ min-height:100%;font-family:  "Microsoft YaHei", Arial, Helvetica, sans-serif;}
+.clear{*zoom:1;}
+.clear:after{content:"";display:table;clear:both;}
+.table{display:table;width:100%;table-layout:fixed;}
+.cell{display:table-cell;vertical-align:middle;}
+.left{float:left;}
+.right{float:right}
+ 
