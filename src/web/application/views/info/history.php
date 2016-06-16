@@ -42,7 +42,7 @@
 </section>
 
 <!--脚本加载-->
-<script src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.min.js"></script>
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javascript" src="js/swiper.min.js"></script>
 <script type="text/javascript" src="js/common.js"></script>

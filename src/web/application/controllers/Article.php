@@ -55,7 +55,7 @@ class ArticleController extends Mall {
             }else{
                 $prodata=[
                     'article_id'=>$articleid,
-                    'article_name'=>$item['name'],
+                    'article_name'=>$item['title'],
                     'userid'=>$wxuser['userid'],
                     'parent_id'=>$oriuserid,
                     'tree_no'=>$oripropa['tree_no'].'&'.$wxuser['userid'],
@@ -113,7 +113,7 @@ class ArticleController extends Mall {
             }else{
                 $prodata=[
                     'article_id'=>$articleid,
-                    'article_name'=>$item['name'],
+                    'article_name'=>$item['title'],
                     'userid'=>$wxuser['userid'],
                     'parent_id'=>$oriuserid,
                     'tree_no'=>$oripropa['tree_no'].'&'.$wxuser['userid'],

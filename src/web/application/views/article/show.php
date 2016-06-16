@@ -23,10 +23,32 @@
             success: function () {
                 // 用户确认分享后执行的回调函数
                 //调用分享接口
-                $.ajax({url:<?=U('article/share',['articleid'=>$item['id']])?>});
+                $.ajax({url:<?=U('article/share',['articleid'=>$item['id']])?>, success: function(){
+                    $(this).addClass("done");
+                }});
             },
             cancel: function () {
                 // 用户取消分享后执行的回调函数
+                alert(JSON.stringify(res));
+            }
+        });
+        wx.onMenuShareAppMessage({
+            title: '<?=$item['title']?>',
+            desc: '在长大的过程中，我才慢慢发现，我身边的所有事，别人跟我说的所有事，那些所谓本来如此，注定如此的事，它们其实没有非得如此，事情是可以改变的。更重要的是，有些事既然错了，那就该做出改变。',
+            link: localhref,
+            imgUrl: 'http://demo.open.weixin.qq.com/jssdk/images/p2166127561.jpg',
+            trigger: function (res) {
+                // 不要尝试在trigger中使用ajax异步请求修改本次分享的内容，因为客户端分享操作是一个同步操作，这时候使用ajax的回包会还没有返回
+
+            },
+            success: function (res) {
+                $.ajax({url:"xp.fengniao.info/article/share",data:<?=$item['id']?>, success: function(){
+                    $(this).addClass("done");
+                }});
+            },
+            cancel: function (res) {
+            },
+            fail: function (res) {
                 alert(JSON.stringify(res));
             }
         });

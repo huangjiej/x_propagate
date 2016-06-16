@@ -109,7 +109,7 @@
 
     </li>
 </ul>
-
+<block name="script">
 <script>
     //console.log(JSON.parse('<?=  $weights ?>'))
     var myChart = echarts.init(document.getElementById('main'));
@@ -312,3 +312,4 @@
         console.log(params);
     })
 </script>
+    </block>
