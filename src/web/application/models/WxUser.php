@@ -41,21 +41,7 @@ class WxUserModel extends Model{
     }
 
     public function getUser($openid){
-        $field = [
-            'openid',
-            'userid',
-            'nickname',
-            'headimgurl',
-            'unionid',
-            'subscribe',
-            'b.mobile_num'
-        ];
-        return $this->get(
-            [
-                '[>]t_user(b)'=>['openid'=>'union_id'],
-            ],
-            $field,
-            ['AND'=>['openid'=>$openid]]
-        );
+
+        return $this->get('*',['AND'=>['openid'=>$openid]]);
     }
 }

@@ -24,7 +24,6 @@
                 // 用户确认分享后执行的回调函数
                 //调用分享接口
                 $.ajax({url:<?=U('article/share',['articleid'=>$item['id']])?>});
-
             },
             cancel: function () {
                 // 用户取消分享后执行的回调函数

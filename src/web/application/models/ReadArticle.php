@@ -7,9 +7,9 @@
  * @copyright Copyright (c) 2014
  */
 
-class ShareArticleModel extends Model{
+class ReadArticleModel extends Model{
 
-    public $table = 't_share_article';
+    public $table = 't_read_article';
 
     public function save(Array $data){
         $data['insert_time'] = time_format();
