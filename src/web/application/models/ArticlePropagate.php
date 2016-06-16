@@ -12,8 +12,7 @@ class ArticlePropagateModel extends Model{
     public $table = 't_article_propagate';
 
     public function getByUserid($userid,$articleid){
-        return $this->select('*',['userid'=>$userid,'article_id'=>$articleid]);
+        return $this->get('*',['and'=>['userid'=>$userid,'article_id'=>$articleid]]);
     }
-
 
 }

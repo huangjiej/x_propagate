@@ -42,6 +42,6 @@ class WxUserModel extends Model{
 
     public function getUser($openid){
 
-        return $this->get('*',['AND'=>['openid'=>$openid]]);
+        return $this->get('*',['openid'=>$openid]);
     }
 }

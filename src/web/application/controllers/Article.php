@@ -30,7 +30,10 @@ class ArticleController extends Mall {
         $user = new WxUserModel();
         $readartilce=new ReadArticleModel();
         $oriuserid=I('userid',$item['userid']);
-        $wxuser = $user->get($this->user['openid']);
+        $wxuser = $user->getUser($this->user['openid']);
+        if(empty($wxuser)){
+            $wxuser=$user->save(['openid'=>$this->user['openid']]);
+        }
         $data=[
             'article_id'=>$articleid,
             'userid'=>$wxuser['userid'],
@@ -48,7 +51,7 @@ class ArticleController extends Mall {
             //查询上级节点信息
             $oripropa=$propagate->getByUserid($oriuserid,$articleid);
             if(empty($oripropa)){
-                SeasLog::debug('上级用户节点信息[articleid:'.$articleid.',userid:'.$wxuser['userid'].']查询失败,传播节点保存失败!');
+                SeasLog::debug('上级用户节点信息[articleid:'.$articleid.',userid:'.$oriuserid.']查询失败,传播节点保存失败!');
             }else{
                 $prodata=[
                     'article_id'=>$articleid,
@@ -84,7 +87,10 @@ class ArticleController extends Mall {
         $user = new WxUserModel();
         $shareartilce=new ShareArticleModel();
         $oriuserid=I('userid',$item['userid']);
-        $wxuser = $user->get($this->user['openid']);
+        $wxuser = $user->getUser($this->user['openid']);
+        if(empty($wxuser)){
+            $wxuser=$user->save(['openid'=>$this->user['openid']]);
+        }
         $data=[
             'article_id'=>$articleid,
             'userid'=>$wxuser['userid'],
