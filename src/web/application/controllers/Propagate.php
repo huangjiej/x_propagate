@@ -15,9 +15,14 @@ use Core\Mall;
 class PropagateController extends Mall {
 
     public function indexAction() {
-
+        $articleid=I('articleid',1);
+        $model = new ArticlePropagateModel();
+        $tree = $model->getTree(0,['userid','name','parent_id'],$articleid);
+        $this->assign('tree', json_encode($tree));
     }
 
+    public function type2Action() {
 
+    }
 
 }

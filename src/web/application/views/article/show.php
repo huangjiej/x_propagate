@@ -1,6 +1,6 @@
 <section class="main padb110">
     <div class="class-info">
-        <div class="info-tit"><?=$item['title']?></div>
+        <div class="info-tit"><a href="<?=U('/propagate/index',['articleid'=>$item['id']])?>"><?=$item['title']?></a></div>
         <?=$item['content']?>
     </div>
 </section>

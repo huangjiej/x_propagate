@@ -37,6 +37,7 @@ class WxUserModel extends Model{
             $data['headimgurl'] = DOMAIN.'/misc/images/avator.jpg';
         }
         $data['insert_time'] = time_format();
+        SeasLog::debug('保存新用户：openid='.$data['openid'].'!');
         return $this->insert($data);
     }
 
