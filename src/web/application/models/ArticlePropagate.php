@@ -12,7 +12,11 @@ class ArticlePropagateModel extends Model{
     public $table = 't_article_propagate';
     public $list;
     public function getByUserid($userid,$articleid){
-        return $this->get('*',['and'=>['userid'=>$userid,'article_id'=>$articleid]]);
+        return $this->get('*',['and'=>['userid'=>$userid,'article_id'=>$articleid,'status'=>'OK#']]);
+    }
+
+    public function getByArticleid($articleid){
+        return $this->select(['userid','name','parent_id'],['and'=>['article_id'=>$articleid,'status'=>'OK#']]);
     }
 
     public function getTree($id = 0, $field = true,$articleid){
@@ -26,7 +30,7 @@ class ArticlePropagateModel extends Model{
 //        $map  = array('status' => 'OK#');
 
         $map = [];
-        $this->list = $this->select($field,['article_id'=>$articleid]);
+        $this->list = $this->select($field,['article_id'=>$articleid,'status'=>'OK#']);
         //var_dump($this->last_query());
         $tree = $this->list_to_tree($this->list, $pk = 'userid', $pid = 'parent_id', $child = 'children');
 

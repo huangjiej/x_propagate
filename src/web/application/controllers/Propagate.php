@@ -22,7 +22,43 @@ class PropagateController extends Mall {
     }
 
     public function type2Action() {
+        $articleid=I('articleid',1);
+        $model = new ArticlePropagateModel();
+        $tree = $model->getTree(0,['userid','name','parent_id'],$articleid);
+        $this->assign('tree', json_encode($tree));
+    }
+    public function type3Action() {
+        $articleid=I('articleid',1);
+        $model = new ArticlePropagateModel();
+        $tree = $model->getByArticleid($articleid);
+        /*$tree = M('t_article_propagate(a)')->select(['userid','name','parent_id'],
+            [
+                'AND' => [
+                    'article_id'=>$articleid,
+                    'status'=> 'OK#'
+                ],
+                "LIMIT" => [0,30],]
+        );*/
+        $nodes=[];
+        $links=[];
+        $i=0;
+        foreach($tree as $key=> $item){
+            $nodes[$key]['category']=0;
+            $nodes[$key]['name']=$item['userid'];
+            $nodes[$key]['label']=$item['name'];
+            $nodes[$key]['value']=$item['parent_id'];
+            if(!empty($item['parent_id'])){
+                $links[$i]['source']=$item['userid'];
+                $links[$i]['target']=$item['parent_id'];
+                $links[$i]['weight']=2;
+                $i=$i+1;
+            }
+
+        }
+        $this->assign('nodes', json_encode($nodes));
+        $this->assign('links', json_encode($links));
+    }
+    public function type4Action() {
 
     }
-
 }

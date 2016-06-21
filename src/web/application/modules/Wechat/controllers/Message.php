@@ -22,7 +22,7 @@ class MessageController extends Core\Wechat  {
             ],[
                 'type'=>'view',
                 'name'=>'传播图',
-                'url'=>'http://xp.fengniao.info/propagate/index',
+                'url'=>'http://xp.fengniao.info/propagate/type3',
             ],[
                 'type'=>'view',
                 'name'=>'用户画像',
