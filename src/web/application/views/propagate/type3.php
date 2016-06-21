@@ -13,14 +13,14 @@
 
         var option = {
             title: {
-                text: 'STEP DAY：网站地图',
-                subtext: 'From:www.stepday.com',
+                text: 'STEP DAY：x传播',
+                subtext: 'From:www.xpfengniao.info',
                 x: 'right',
                 y: 'bottom'
             },
             tooltip: {
                 trigger: 'item',
-                formatter: '{a} : {b}'
+                formatter: '{a} : {c}'
             },
             legend: {
                 x: 'left',
@@ -29,10 +29,10 @@
             series: [
                 {
                     type: 'force',
-                    name: "点击访问",
+                    name: "阅读数",
                     categories: [
                         {
-                            name: '点击访问',
+                            name: '阅读数',
                             itemStyle: {
                                 normal: {
                                     color: '#ff7f50'
@@ -55,10 +55,12 @@
                             }
                         }
                     },
-                    minRadius: 5,
+                    minRadius: 10,
                     maxRadius: 15,
                     density: 0.05,
-                    attractiveness: 1.2,
+                    large:true,
+                    useWorker:true,
+                    attractiveness: 1.0,
                     nodes: <?=$nodes?>,
                     links: <?=$links?>
                 }

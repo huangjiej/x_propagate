@@ -30,14 +30,26 @@ class PropagateController extends Mall {
     public function type3Action() {
         $articleid=I('articleid',1);
         $model = new ArticlePropagateModel();
-        $tree = $model->getByArticleid($articleid);
-        /*$tree = M('t_article_propagate(a)')->select(['userid','name','parent_id'],
+        //$tree = $model->getByArticleid($articleid);
+
+
+        $tree = M()->query("select a.userid,a.name,a.parent_id ,COUNT(b.id) readnum from t_article_propagate a
+left JOIN t_read_article b on b.original_userid=a.userid
+where a.article_id=1 GROUP BY a.userid LIMIT 30")->fetchAll();
+        /*$tree = M('t_article_propagate(a)')->select(
+            ['a.userid','a.name','a.parent_id' ,'COUNT(b.id) readnum'],
             [
-                'AND' => [
-                    'article_id'=>$articleid,
-                    'status'=> 'OK#'
+                [
+                    '[>]t_read_article(b)' => ['a.userid'=>'b.original_userid']
                 ],
-                "LIMIT" => [0,30],]
+                'AND' => [
+                    'a.article_id'=>$articleid,
+                    'a.status'=> 'OK#'
+                ],
+                "LIMIT" => [0,30]
+                ,
+                "GROUP BY"=>['a.userid']
+            ]
         );*/
         $nodes=[];
         $links=[];
@@ -46,7 +58,7 @@ class PropagateController extends Mall {
             $nodes[$key]['category']=0;
             $nodes[$key]['name']=$item['userid'];
             $nodes[$key]['label']=$item['name'];
-            $nodes[$key]['value']=$item['parent_id'];
+            $nodes[$key]['value']=$item['readnum'];
             if(!empty($item['parent_id'])){
                 $links[$i]['source']=$item['userid'];
                 $links[$i]['target']=$item['parent_id'];
