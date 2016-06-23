@@ -8,13 +8,14 @@
     <a href="javascript:;" data-toggle="share-btn" ><i class="ico i-share2"></i></a>
 </div>
 <block name="script">
+    <script src="/js/propagate.js"></script>
     <script type="text/javascript">
         var localhref=window.location.href;
         var arr=localhref.split('?');
         if(!arr[1]){
-            localhref=localhref+"?userid=<?=$item['userid']?>";
+            localhref=localhref+"?originalOpenid=<?=$user['openid']?>";
         }else{
-            localhref=localhref+"&userid=<?=$item['userid']?>";
+            localhref=localhref+"&originalOpenid=<?=$user['openid']?>";
         }
         wx.onMenuShareTimeline({
             title: '<?=$item['title']?>', // 分享标题
@@ -23,9 +24,12 @@
             success: function () {
                 // 用户确认分享后执行的回调函数
                 //调用分享接口
-                $.ajax({url:<?=U('article/share',['articleid'=>$item['id']])?>, success: function(){
+
+                add4share(localhref);
+                sendUserInfo(<?=$user?>);
+               /* $.ajax({url:<?=U('article/share',['articleid'=>$item['id']])?>, success: function(){
                     $(this).addClass("done");
-                }});
+                }});*/
             },
             cancel: function () {
                 // 用户取消分享后执行的回调函数

@@ -34,13 +34,15 @@ class ArticleController extends Mall {
         if(empty($wxuser)){
             $wxuser=$user->save(['openid'=>$this->user['openid']]);
         }
-        $data=[
+        $this->assign('user',$wxuser);
+        /*$data=[
             'article_id'=>$articleid,
             'userid'=>$wxuser['userid'],
             'original_userid'=>$oriuserid,
             'original_url'=>DOMAIN.$_SERVER['REQUEST_URI']
         ];
         $readartilce->save($data);
+
         //保存传播路径
         $propagate=new ArticlePropagateModel();
         //查询是否已经保存过
@@ -63,7 +65,7 @@ class ArticleController extends Mall {
                     ];
                 $propagate->insert($prodata);
             }
-        }
+        }*/
 
     }
 
