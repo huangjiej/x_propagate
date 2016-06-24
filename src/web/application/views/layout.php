@@ -23,58 +23,6 @@
 
 <?php echo $content?>
 
-
-    <script type="text/javascript" src="/js/jquery.js"></script>
-    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-    <script type="text/javascript" src="/js/swiper.min.js"></script>
-    <script type="text/javascript">
-
-        wx.config({
-            debug: false,
-            appId: '<?= $js_sign['appid']?>',
-            timestamp: <?= $js_sign['timestamp']?>,
-            nonceStr: '<?= $js_sign['noncestr']?>',
-            signature: '<?= $js_sign['signature']?>',
-            jsApiList: [
-                'checkJsApi',
-                'onMenuShareTimeline',
-                'onMenuShareAppMessage',
-                'onMenuShareQQ',
-                'onMenuShareWeibo',
-                'onMenuShareQZone',
-                'hideMenuItems',
-                'showMenuItems',
-                'hideAllNonBaseMenuItem',
-                'showAllNonBaseMenuItem',
-                'translateVoice',
-                'startRecord',
-                'stopRecord',
-                'onVoiceRecordEnd',
-                'playVoice',
-                'onVoicePlayEnd',
-                'pauseVoice',
-                'stopVoice',
-                'uploadVoice',
-                'downloadVoice',
-                'chooseImage',
-                'previewImage',
-                'uploadImage',
-                'downloadImage',
-                'getNetworkType',
-                'openLocation',
-                'getLocation',
-                'hideOptionMenu',
-                'showOptionMenu',
-                'closeWindow',
-                'scanQRCode',
-                'chooseWXPay',
-                'openProductSpecificView',
-                'addCard',
-                'chooseCard',
-                'openCard'
-            ]
-        });
-    </script>
 <block name="script">
 </block>
 </body>

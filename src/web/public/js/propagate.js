@@ -1,13 +1,15 @@
-	   //cookie失效时间
+
+       //cookie失效时间
        var x_expire = 60 * 60;
-  
+       //js接口的根路径 
+       var  x_rootPath = "http://112.124.6.88:8099/if";
+      // var x_rootPath = "http://localhost:6060/propagate";
 	    /**
 		 * 动态加载js
 		 */
 		var loadJS = function( id, fileUrl ) 
 		{ 
 			console.log("fileUrl:"+fileUrl);
-			userinfoLoaded = false;
 	    	var oHead = document.getElementsByTagName('head').item(0); 
 	    	var scriptTag = document.getElementById( id ); 
 	    	if (scriptTag) oHead.removeChild(scriptTag); 
@@ -24,7 +26,7 @@
 	    		    oScript.onload = oScript.onreadystatechange = null; 
 	    		} 
 			}; 
-		} 
+		}; 
 		
 		
 		/**
@@ -37,7 +39,7 @@
 	   	    var localhostPaht=curWwwPath.substring(0,pos);
 	   	    var projectName=pathName.substring(0,pathName.substr(1).indexOf('/')+1);
 	   	    return(localhostPaht+projectName);
-	   	}
+	   	};
 	    
 		/**
 		 * 获取上下文路径
@@ -47,7 +49,7 @@
 		    var index = pathName.substr(1).indexOf("/");
 		    var result = pathName.substr(0,index+1);
 		    return result;
-		}
+		};
 
 		
 		/**
@@ -64,7 +66,7 @@
 		var getUrlFromHttp = function(e) {
 			var t = /http:\/\/([^\/]+)\//i;
 			var n = e.match(t);
-			return n[1]
+			return n[1];
 		};
 
 		
@@ -169,25 +171,56 @@
 						}
 					}
 				}();
+				
+				/**
+				 *  替换URL中指定的参数值
+				 */
+				function replaceParamVal(href,paramName,replaceWith) {
+				    var re=eval('/('+ paramName+'=)([^&]*)/gi');
+				    var newUrl = href.replace(re,paramName+'='+replaceWith);
+				    return newUrl;
+				}	
+				
 
          /**
 		 * shareUrl后面添加articleId,originalOpenId参数
 		 * 其中originalOpenId为cookie中的x_reader 
 		 */
 		var add4share = function(shareUrl){
-			  if(!shareUrl){
-				 alert("分享链接不能为空。")
-				 return;
-			  }
+			/* if(!shareUrl){
+			  alert("分享链接不能为空。")
+			  return;
+			}*/
 			  var articleId = o.getItem("x_articleId");
 			  //originalOpenId为cookie中的x_reader 
 			  var originalOpenId = o.getItem("x_reader");
-			  var param = "originalOpenId="+originalOpenId+"&articleId="+articleId;
-			  if(shareUrl.indexOf("?") > -1){
-				  shareUrl += "&" + param;
+
+			  var param = "";
+			  if(shareUrl.indexOf("x_articleId") != -1){
+				  //替换文章id为用户当前阅读的文章的id
+				  shareUrl =  replaceParamVal(shareUrl,"x_articleId",articleId);
 			  }else{
-				  shareUrl += "?" + param;
+				   param = "x_articleId="+articleId;
 			  }
+			  if(shareUrl.indexOf("x_sharer") != -1){
+				  //替换分享用户openId为当前用户的openId
+				  shareUrl =  replaceParamVal(shareUrl,"x_sharer",originalOpenId);
+			  }else{
+				  if(param == ""){
+					  param = "x_sharer="+originalOpenId;
+				  }else{
+					  param += "&x_sharer="+originalOpenId;
+				  }
+			  }
+
+			  if(param != ""){
+				  if(shareUrl.indexOf("?") > -1){
+					  shareUrl += "&" + param;
+				  }else{
+					  shareUrl += "?" + param;
+				  }
+			  }
+
 			  console.log(shareUrl);
 			 // alert("分享链接为:"+decodeURIComponent(shareUrl));
 			  return shareUrl;
@@ -195,7 +228,7 @@
 	  
 		  //add4share建立传播关系：originalUserid 传播给 userid
 		  //测试add4share
-	   	  // add4share(getRootPath()+"/userRecord/userappend.js");
+	   	  // add4share(x_rootPath+"/userRecord/userappend.js");
 	   	  
 	   	  
 	        /**
@@ -212,6 +245,7 @@
 			        var originalUrl =encodeURIComponent(window.location.href);
 			        //分享者用户id
 			        var originalOpenId =  getUrlParam('x_sharer');
+
 			        // 分享类型
 			        var shareType ; 
 			        // 分享目标
@@ -224,9 +258,9 @@
 			   	  console.log("userid:"+o.getItem("x_reader"));
 			  	  console.log("articleId:"+o.getItem("x_articleId"));
 			   	  console.log("originalUrl:"+o.getItem("x_originalUrl")); 
-			  	  console.log("getRootPath:"+getRootPath());
+			  	  console.log("getRootPath:"+x_rootPath);
 		  		     //加载userread.js，保存“阅读记录”
-				  	 var jsUrl = getRootPath()+"/userRecord/userread.js?openId="+openId+"&articleId="+articleId;
+				  	 var jsUrl = x_rootPath+"/userRecord/userread.js?openId="+openId+"&articleId="+articleId;
 			  		     if(originalOpenId){
 				  			jsUrl+="&originalOpenId="+originalOpenId;
 				  		 }
@@ -240,7 +274,7 @@
 				   	   * 从url中提取originalUserid参数，如果存在则保存"分享记录"
 				   	   */
 				  	  if(originalOpenId){
-				  		 var userappendJSUrl = getRootPath()+"/userRecord/userappend.js?openId="+openId
+				  		 var userappendJSUrl = x_rootPath+"/userRecord/userappend.js?openId="+openId
 				  		 +"&articleId="+articleId+"&originalOpenId="+originalOpenId;
 				  		 if(originalUrl){
 				  			userappendJSUrl+="&originalUrl="+originalUrl;
@@ -249,17 +283,17 @@
 				  		 loadJS("userappend",userappendJSUrl);
 				  	  }
 		  	  }
-		  }//end of saveReadOrShareRecord
+		  };//end of saveReadOrShareRecord
 		  
 		  /**
 		   * 保存微信用户信息
 		   */
 		  var sendUserInfo =  function(userinfoParam){
                 //测试数据
-			  userinfoParam = "openid=oCmwKv9ErXuGDmJYWGV2KSxEYj6A&nickname=小明" +
+			  /*userinfoParam = "openid=oCmwKv9ErXuGDmJYWGV2KSxEYj6A&nickname=小明" +
    		  	  "&language=zh_CN&unionid=1&province=广东&city=深圳" +
-   		  	  "&country=中国&headimgurl=xxxx&privilege=xxxx&Ticket=xxxx&tagidist=xxxx";
-	   		  var userinfoJsUrl = getRootPath()+ "/userRecord/userinfo.js?"+userinfoParam;
+   		  	  "&country=中国&headimgurl=xxxx&privilege=xxxx&Ticket=xxxx&tagidist=xxxx";*/
+	   		  var userinfoJsUrl = x_rootPath+ "/userRecord/userinfo.js?"+userinfoParam;
 	   		 /* if(user.remark){  userinfoJsUrl+="&remark="+user.remark; } 
 	   		  if(user.subscribe){  userinfoJsUrl+="&subscribe="+user.subscribe; } 
 	   		  if(user.sex){  userinfoJsUrl+="&sex="+user.sex;  }   
@@ -270,7 +304,7 @@
 			 console.log("动态加载userinfo.js:"+userinfoJsUrl);
 			 loadJS("userinfo",userinfoJsUrl);
 			 console.log("保存用户信息成功。")
-	   	  }
+	   	  };
 		  
 		  //保存阅读和分享记录
 		  saveReadOrShareRecord();

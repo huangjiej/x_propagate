@@ -8,44 +8,41 @@
     <a href="javascript:;" data-toggle="share-btn" ><i class="ico i-share2"></i></a>
 </div>
 <block name="script">
-    <script src="/js/propagate.js"></script>
-    <script type="text/javascript">
-        var localhref=window.location.href;
-        var arr=localhref.split('?');
-        if(!arr[1]){
-            localhref=localhref+"?x_articleId=<?=$item['id']?>&x_reader=<?=$userinfo['openid']?>";
-        }else{
-            localhref=localhref+"&x_articleId=<?=$item['id']?>&x_reader=<?=$userinfo['openid']?>";
-        }
-        localhref=add4share(localhref);
-        sendUserInfo(<?=$user?>);
-        wx.onMenuShareTimeline({
-            title: '<?=$item['title']?>', // 分享标题
-            link: localhref, // 分享链接
-            imgUrl: '', // 分享图标
-            success: function () {
-                // 用户确认分享后执行的回调函数
-                //调用分享接口
+    <script type="text/javascript" src="/js/jquery.js"></script>
+    <script type="text/javascript" src="/js/propagate.js"></script>
+    <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <!-- @NOPARSE -->
+    <script>
+        var userinfoParam = "openid=oCmwKv9ErXuGDmJYWGV2KSxEYj6A&nickname=小明" +
+            "&language=zh_CN&unionid=1&province=广东&city=深圳" +
+            "&country=中国&headimgurl=xxxx&privilege=xxxx&Ticket=xxxx&tagidist=xxxx";
+        sendUserInfo(userinfoParam);
+        var localhref=window.location.href+"&x_reader=oCmwKv9ErXuGDmJYWGV2KSxEYj6A&nickname&x_articleId=1"
+        var sharehref=add4share(localhref);
 
-
-               /* $.ajax({url:<?=U('article/share',['articleid'=>$item['id']])?>, success: function(){
-                    $(this).addClass("done");
-                }});*/
-            },
-            cancel: function () {
-                // 用户取消分享后执行的回调函数
-                alert(JSON.stringify(res));
-            }
+        wx.config({
+            appId: '<?=  $js_sign['appid']?>',
+            timestamp: <?=  $js_sign['timestamp']?>,
+            nonceStr: '<?=  $js_sign['noncestr']?>',
+            signature: '<?=  $js_sign['signature']?>',
+            jsApiList: [
+                'onMenuShareTimeline',
+                'onMenuShareAppMessage',
+                'onMenuShareQQ',
+                'onMenuShareWeibo',
+                'onMenuShareQZone'
+            ]
         });
+
         wx.ready(function () {
             wx.onMenuShareTimeline({
-                title: '<?=$item['title']?>', // 分享标题
-                link: localhref, // 分享链接
+                title: localhref, // 分享标题
+                link: sharehref, // 分享链接
                 imgUrl: '', // 分享图标
-                desc: '', // 分享描述
+                desc: sharehref, // 分享描述
                 success: function () {
                     // 用户确认分享后执行的回调函数
-                    layer.alert('分享成功');
+                    //layer.alert('分享成功');
                 },
                 cancel: function () {
                     // 用户取消分享后执行的回调函数
@@ -53,15 +50,15 @@
             });
 
             wx.onMenuShareAppMessage({
-                title: '<?=$item['title']?>', // 分享标题
-                desc: '', // 分享描述
-                link: localhref, // 分享链接// 分享链接
+                title: sharehref, // 分享标题
+                desc: sharehref, // 分享描述
+                link: sharehref, // 分享链接// 分享链接
                 imgUrl: '', // 分享图标
                 type: '', // 分享类型,music、video或link，不填默认为link
                 dataUrl: '', // 如果type是music或video，则要提供数据链接，默认为空
                 success: function () {
                     // 用户确认分享后执行的回调函数
-                    layer.alert('分享成功');
+                    //layer.alert('分享成功');
                 },
                 cancel: function () {
                     // 用户取消分享后执行的回调函数
@@ -69,13 +66,13 @@
             });
 
             wx.onMenuShareQQ({
-                title: '<?=$item['title']?>', // 分享标题
-                desc: '', // 分享描述
-                link: localhref, // 分享链接
+                title: sharehref, // 分享标题
+                desc: sharehref, // 分享描述
+                link: sharehref, // 分享链接
                 imgUrl: '', // 分享图标
                 success: function () {
                     // 用户确认分享后执行的回调函数
-                    layer.alert('分享成功');
+                    //layer.alert('分享成功');
                 },
                 cancel: function () {
                     // 用户取消分享后执行的回调函数
@@ -83,13 +80,13 @@
             });
 
             wx.onMenuShareWeibo({
-                title: '<?=$item['title']?>', // 分享标题
-                desc: '', // 分享描述
-                link: localhref, // 分享链接
+                title: sharehref, // 分享标题
+                desc: sharehref, // 分享描述
+                link: sharehref, // 分享链接
                 imgUrl: '', // 分享图标
                 success: function () {
                     // 用户确认分享后执行的回调函数
-                    layer.alert('分享成功');
+                    //layer.alert('分享成功');
                 },
                 cancel: function () {
                     // 用户取消分享后执行的回调函数
@@ -97,13 +94,13 @@
             });
 
             wx.onMenuShareQZone({
-                title: '<?=$item['title']?>', // 分享标题
-                desc: '', // 分享描述
-                link: localhref, // 分享链接
+                title: sharehref, // 分享标题
+                desc: sharehref, // 分享描述
+                link: sharehref, // 分享链接
                 imgUrl: '', // 分享图标
                 success: function () {
                     // 用户确认分享后执行的回调函数
-                    layer.alert('分享成功');
+                    //layer.alert('分享成功');
                 },
                 cancel: function () {
                     // 用户取消分享后执行的回调函数
@@ -115,6 +112,7 @@
             alert('wx.error: '+JSON.stringify(res));
         });
     </script>
+    <!-- /@NOPARSE -->
 </block>
 <block name="style">
     <link rel="stylesheet" type="text/css" href="/css/swiper.min.css"/>
