@@ -34,7 +34,8 @@ class ArticleController extends Mall {
         if(empty($wxuser)){
             $wxuser=$user->save(['openid'=>$this->user['openid']]);
         }
-        $this->assign('user',$wxuser);
+        $this->assign('user',json_encode($wxuser));
+        $this->assign('userinfo',$wxuser);
         /*$data=[
             'article_id'=>$articleid,
             'userid'=>$wxuser['userid'],

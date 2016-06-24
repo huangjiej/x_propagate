@@ -32,9 +32,11 @@ class Mall extends Api {
             $this->redirect($this->wechat->getOauthRedirect($url,'','snsapi_base'));
         }
 
-
+        $this->config = Registry::get('config');
+        $this->layout = Registry::get('layout');
         if(!is_not_wx()){
             $js_ticket = $this->wechat->getJsTicket();
+
             if (!$js_ticket) {
                 echo "获取js_ticket失败！<br>";
                 echo '错误码：'.$this->wechat->errCode;
@@ -45,12 +47,14 @@ class Mall extends Api {
             $url = DOMAIN.$_SERVER['REQUEST_URI'];
             $js_sign = $this->wechat->getJsSign($url);
             $this->assign('js_sign',$js_sign);
+            if(!empty($this->layout)){
+                $this->layout->js_sign = $js_sign;
+            }
         }
         
         
 
-        $this->config = Registry::get('config');
-        $this->layout = Registry::get('layout');
+
         if(!empty($this->layout)){
             $this->layout->user = $this->user;
         }

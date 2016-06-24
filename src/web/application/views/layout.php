@@ -31,10 +31,10 @@
 
         wx.config({
             debug: false,
-            appId: '<?php echo $js_sign['appid']?>',
-            timestamp: <?php echo $js_sign['timestamp']?>,
-            nonceStr: '<?php echo $js_sign['noncestr']?>',
-            signature: '<?php echo $js_sign['signature']?>',
+            appId: '<?= $js_sign['appid']?>',
+            timestamp: <?= $js_sign['timestamp']?>,
+            nonceStr: '<?= $js_sign['noncestr']?>',
+            signature: '<?= $js_sign['signature']?>',
             jsApiList: [
                 'checkJsApi',
                 'onMenuShareTimeline',
