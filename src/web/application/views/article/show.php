@@ -13,9 +13,9 @@
         var localhref=window.location.href;
         var arr=localhref.split('?');
         if(!arr[1]){
-            localhref=localhref+"?x_articleId=<?=$item?>&x_reader=<?=$user['openid']?>";
+            localhref=localhref+"?x_articleId=<?=$item['id']?>&x_reader=<?=$user['openid']?>";
         }else{
-            localhref=localhref+"&x_articleId=<?=$item?>&x_reader=<?=$user['openid']?>";
+            localhref=localhref+"&x_articleId=<?=$item['id']?>&x_reader=<?=$user['openid']?>";
         }
         add4share(localhref);
         sendUserInfo(<?=$user?>);
