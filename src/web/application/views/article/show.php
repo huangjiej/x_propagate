@@ -17,7 +17,7 @@
         }else{
             localhref=localhref+"&x_articleId=<?=$item['id']?>&x_reader=<?=$user['openid']?>";
         }
-        add4share(localhref);
+        localhref=add4share(localhref);
         sendUserInfo(<?=$user?>);
         wx.onMenuShareTimeline({
             title: '<?=$item['title']?>', // 分享标题
