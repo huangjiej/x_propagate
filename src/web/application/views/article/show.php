@@ -13,10 +13,12 @@
         var localhref=window.location.href;
         var arr=localhref.split('?');
         if(!arr[1]){
-            localhref=localhref+"?originalOpenid=<?=$user['openid']?>";
+            localhref=localhref+"?x_articleId=<?=$item?>&x_reader=<?=$user['openid']?>";
         }else{
-            localhref=localhref+"&originalOpenid=<?=$user['openid']?>";
+            localhref=localhref+"&x_articleId=<?=$item?>&x_reader=<?=$user['openid']?>";
         }
+        add4share(localhref);
+        sendUserInfo(<?=$user?>);
         wx.onMenuShareTimeline({
             title: '<?=$item['title']?>', // 分享标题
             link: localhref, // 分享链接
@@ -25,8 +27,7 @@
                 // 用户确认分享后执行的回调函数
                 //调用分享接口
 
-                add4share(localhref);
-                sendUserInfo(<?=$user?>);
+
                /* $.ajax({url:<?=U('article/share',['articleid'=>$item['id']])?>, success: function(){
                     $(this).addClass("done");
                 }});*/

@@ -1,27 +1,29 @@
-	   var x_expire = 60 * 60;
-
+	   //cookie失效时间
+       var x_expire = 60 * 60;
+  
 	    /**
 		 * 动态加载js
 		 */
 		var loadJS = function( id, fileUrl ) 
 		{ 
 			console.log("fileUrl:"+fileUrl);
+			userinfoLoaded = false;
 	    	var oHead = document.getElementsByTagName('head').item(0); 
 	    	var scriptTag = document.getElementById( id ); 
 	    	if (scriptTag) oHead.removeChild(scriptTag); 
 	    	var oScript= document.createElement("script"); 
 	    	oScript.id = id; 
 	    	oScript.type = "text/javascript";
-	    	oScript.onload = oScript.onreadystatechange = function() { 
-	    		if (!this.readyState || this.readyState === "loaded" || this.readyState === "complete" ) { 
-	    		    // Handle memory leak in IE 
-	    		    oScript.onload = oScript.onreadystatechange = null; 
-	    		} 
-			}; 
 	    	oScript.src=fileUrl ; 
 	    	oHead.appendChild(oScript); 
 	    	console.log(id+":");
 	    	console.log(oScript);
+	    	oScript.onload = oScript.onreadystatechange = function() { 
+	    		if (!this.readyState || this.readyState === "loaded" || this.readyState === "complete" ) { 
+	    			// Handle memory leak in IE 
+	    		    oScript.onload = oScript.onreadystatechange = null; 
+	    		} 
+			}; 
 		} 
 		
 		
@@ -168,11 +170,9 @@
 					}
 				}();
 
-
-
          /**
-		 * shareUrl后面添加articleId,originalUserid参数
-		 * 其中originalUserid为cookie中的userid 
+		 * shareUrl后面添加articleId,originalOpenId参数
+		 * 其中originalOpenId为cookie中的x_reader 
 		 */
 		var add4share = function(shareUrl){
 			  if(!shareUrl){
@@ -180,108 +180,101 @@
 				 return;
 			  }
 			  var articleId = o.getItem("x_articleId");
-			  //originalUserid为cookie中的userid 
-			  var originalUserid = o.getItem("x_userid");
-			  var param = "originalUserid="+originalUserid;
-			  if(articleId){
-				  param+="&articleId="+articleId;
-		  	  }
-			/*  if(shareUrl.indexOf("?") > -1){
-				  shareUrl = shareUrl.substring(0,shareUrl.indexOf("?"));
-			  }*/
+			  //originalOpenId为cookie中的x_reader 
+			  var originalOpenId = o.getItem("x_reader");
+			  var param = "originalOpenId="+originalOpenId+"&articleId="+articleId;
 			  if(shareUrl.indexOf("?") > -1){
 				  shareUrl += "&" + param;
 			  }else{
 				  shareUrl += "?" + param;
 			  }
 			  console.log(shareUrl);
-			  alert("分享链接为:"+decodeURIComponent(shareUrl));
+			 // alert("分享链接为:"+decodeURIComponent(shareUrl));
+			  return shareUrl;
 		  }; 
 	  
 		  //add4share建立传播关系：originalUserid 传播给 userid
 		  //测试add4share
 	   	  // add4share(getRootPath()+"/userRecord/userappend.js");
 	   	  
-	   	  var user = [];//保存的微信用户信息
-	   	  var sendUserInfo =  function(){
-	   		  var userinfoJsUrl = getRootPath()+ "/userRecord/userinfo.js?openid=1&nickname=小明" +
-	   		  	  "&language=zh_CN&unionid=1&province=广东&city=深圳" +
-	   		  	   "&country=中国&headimgurl=xxxx&privilege=xxxx&articleId=1&Ticket=xxxx&tagidList=xxxx";
-	   		  //之后上面写死的参数要改成如下的添加方式
-	   		  if(user.remark){  userinfoJsUrl+="&remark="+user.remark; } 
+	   	  
+	        /**
+			 * 初始化信息
+			 */
+		  var saveReadOrShareRecord = function(){
+		      //阅读者id
+		      var openId = getUrlParam('x_reader');
+		      //分享内容表id
+		      var articleId = getUrlParam('x_articleId');
+		  	  //访问文章的链接中必须含有参数： 阅读者openId和文章id
+		  	  if(openId && articleId){
+		  		 //阅读时的链接
+			        var originalUrl =encodeURIComponent(window.location.href);
+			        //分享者用户id
+			        var originalOpenId =  getUrlParam('x_sharer');
+			        // 分享类型
+			        var shareType ; 
+			        // 分享目标
+			        var shareTarget ;      
+			  	  //缓存参数：把链接url,文章id,阅读者id保存到cookie中
+				   o.setItem('x_originalUrl', originalUrl); 
+				   o.setItem('x_articleId', articleId); 
+				   o.setItem('x_reader',openId); 
+			  	  
+			   	  console.log("userid:"+o.getItem("x_reader"));
+			  	  console.log("articleId:"+o.getItem("x_articleId"));
+			   	  console.log("originalUrl:"+o.getItem("x_originalUrl")); 
+			  	  console.log("getRootPath:"+getRootPath());
+		  		     //加载userread.js，保存“阅读记录”
+				  	 var jsUrl = getRootPath()+"/userRecord/userread.js?openId="+openId+"&articleId="+articleId;
+			  		     if(originalOpenId){
+				  			jsUrl+="&originalOpenId="+originalOpenId;
+				  		 }
+				  		 if(originalUrl){
+					  		jsUrl+="&originalUrl="+originalUrl;
+					  	 }
+				  		 console.log("userread.js:"+jsUrl);
+				  		 loadJS("userread",jsUrl);
+				  	  
+				   	  /**
+				   	   * 从url中提取originalUserid参数，如果存在则保存"分享记录"
+				   	   */
+				  	  if(originalOpenId){
+				  		 var userappendJSUrl = getRootPath()+"/userRecord/userappend.js?openId="+openId
+				  		 +"&articleId="+articleId+"&originalOpenId="+originalOpenId;
+				  		 if(originalUrl){
+				  			userappendJSUrl+="&originalUrl="+originalUrl;
+				  		 }
+				  		 console.log("动态加载userappend.js:"+userappendJSUrl);
+				  		 loadJS("userappend",userappendJSUrl);
+				  	  }
+		  	  }
+		  }//end of saveReadOrShareRecord
+		  
+		  /**
+		   * 保存微信用户信息
+		   */
+		  var sendUserInfo =  function(userinfoParam){
+                //测试数据
+			  userinfoParam = "openid=oCmwKv9ErXuGDmJYWGV2KSxEYj6A&nickname=小明" +
+   		  	  "&language=zh_CN&unionid=1&province=广东&city=深圳" +
+   		  	  "&country=中国&headimgurl=xxxx&privilege=xxxx&Ticket=xxxx&tagidist=xxxx";
+	   		  var userinfoJsUrl = getRootPath()+ "/userRecord/userinfo.js?"+userinfoParam;
+	   		 /* if(user.remark){  userinfoJsUrl+="&remark="+user.remark; } 
 	   		  if(user.subscribe){  userinfoJsUrl+="&subscribe="+user.subscribe; } 
 	   		  if(user.sex){  userinfoJsUrl+="&sex="+user.sex;  }   
 	   		  if(user.subscribeTime){  userinfoJsUrl+="&subscribeTime="+user.subscribeTime; }  
 	   		  if(user.groupid){ userinfoJsUrl+="&groupid="+user.groupid; } 
 	   		  if(user.qrExpireSeconds){ userinfoJsUrl+="&qrExpireSeconds="+user.qrExpireSeconds;  }
-	   		  if(user.qrCreateTime){ userinfoJsUrl+="&qrCreateTime="+user.qrCreateTime; }
+	   		  if(user.qrCreateTime){ userinfoJsUrl+="&qrCreateTime="+user.qrCreateTime; }*/
 			 console.log("动态加载userinfo.js:"+userinfoJsUrl);
 			 loadJS("userinfo",userinfoJsUrl);
-			 alert("保存用户信息成功。")
+			 console.log("保存用户信息成功。")
 	   	  }
+		  
+		  //保存阅读和分享记录
+		  saveReadOrShareRecord();
 	   	  
-	   	  
-	        /**
-			 * 初始化信息
-			 */
-		  var initUserInfo = function(){
-			   //阅读时的链接
-		        var originalUrl =encodeURIComponent(window.location.href);
-		        //阅读者id
-		        var userid = getUrlParam('userid');
-		        //分享者用户id
-		        var originalUserid =  getUrlParam('originalUserid');
-		        //分享内容表id
-		        var articleId = getUrlParam('articleId');
-		        // 分享类型
-		        var shareType ; 
-		        // 分享目标
-		        var shareTarget ;      
-		  	  //缓存参数：把链接url,文章id,阅读者id保存到cookie中
-			   o.setItem('x_originalUrl', originalUrl); 
-			   o.setItem('x_articleId', articleId); 
-			   o.setItem('x_userid',userid); 
-		  	  
-		   	  console.log("originalUrl:"+o.getItem("x_originalUrl")); 
-		   	  console.log("userid:"+o.getItem("x_userid"));
-		   	  //originalUserid为cookie中的userid 
-		   	  console.log("originalUserid:"+o.getItem("x_userid"));
-		  	  console.log("articleId:"+o.getItem("x_userid"));
-		  	  console.log("getRootPath:"+getRootPath());
-		  	  //加载userread.js
-		  	 var jsUrl = getRootPath()+"/userRecord/userread.js?userid="+userid;
-	  		     if(originalUserid){
-		  			jsUrl+="&originalUserid="+originalUserid;
-		  		 }
-		  		 if(articleId){
-		  			jsUrl+="&articleId="+articleId;
-		  		 }
-		  		 if(originalUrl){
-			  		jsUrl+="&originalUrl="+originalUrl;
-			  	 }
-		  		 console.log("userread.js:"+jsUrl);
-		  		 loadJS("userread",jsUrl);
-		  	  
-		  	  
-		   	  /**
-		   	   * 从url中提取originalUserid参数，如果存在则建立连接，加载另一段js
-		   	   */
-		  	  if(originalUserid){
-		  		 var userappendJSUrl = getRootPath()+"/userRecord/userappend.js?userid="+userid
-		  		+"&originalUserid="+originalUserid;
-		  		 if(articleId){
-		  			userappendJSUrl+="&articleId="+articleId;
-		  		 }
-		  		 if(originalUrl){
-		  			userappendJSUrl+="&originalUrl="+originalUrl;
-		  		 }
-		  		 console.log("动态加载userappend.js:"+userappendJSUrl);
-		  		 loadJS("userappend",userappendJSUrl);
-		  	  }
-		  }//end of initUserInfo
-		 
-	   	  //初始化用户信息
-	      initUserInfo(); 
 
 	     
 	     
