@@ -37,7 +37,7 @@
 
         wx.ready(function () {
             wx.onMenuShareTimeline({
-                title: localhref, // 分享标题
+                title: sharehref, // 分享标题
                 link: sharehref, // 分享链接
                 imgUrl: '', // 分享图标
                 desc: sharehref, // 分享描述
