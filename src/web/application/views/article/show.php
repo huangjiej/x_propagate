@@ -9,17 +9,14 @@
 </div>
 <block name="script">
     <script type="text/javascript" src="/js/jquery.js"></script>
-    <script type="text/javascript" src="/js/propagate.js"></script>
+    <script type="text/javascript" src="http://112.124.6.88:8099/if/js/propagate.js"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <!-- @NOPARSE -->
     <script>
-        var userinfoParam = "openid=oCmwKv9ErXuGDmJYWGV2KSxEYj6A&nickname=小明" +
-            "&language=zh_CN&unionid=1&province=广东&city=深圳" +
-            "&country=中国&headimgurl=xxxx&privilege=xxxx&Ticket=xxxx&tagidist=xxxx";
+        var userinfoParam = "openid=<?=$userinfo['openid']?>&nickname=<?=$userinfo['nickname']?>&language=<?=$userinfo['language']?>&unionid=<?=$userinfo['unionid']?>&province=<?=$userinfo['province']?>&city=<?=$userinfo['city']?>&country=<?=$userinfo['country']?>&headimgurl=<?=$userinfo['headimgurl']?>&Ticket=<?=$userinfo['qr_ticket']?>&tagidist=";
         sendUserInfo(userinfoParam);
-        var localhref=window.location.href+"&x_reader=oCmwKv9ErXuGDmJYWGV2KSxEYj6A&nickname&x_articleId=1"
+        var localhref=window.location.href;
         var sharehref=add4share(localhref);
-
         wx.config({
             appId: '<?=  $js_sign['appid']?>',
             timestamp: <?=  $js_sign['timestamp']?>,
