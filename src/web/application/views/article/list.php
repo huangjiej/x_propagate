@@ -26,7 +26,7 @@
 
                     <div class="lesson-pic table clear">
                         <div class="message cell">
-                            <a href="<?=U('show',['articleid'=>$item['id'],'x_reader'=>'oCmwKv9ErXuGDmJYWGV2KSxEYj6A','x_articleId'=>'1'])?>"><p class="nickname"><?=$item['title']?></p></a>
+                            <a href="<?=U('show',['x_articleId'=>$item['id']])?>"><p class="nickname"><?=$item['title']?></p></a>
                         </div>
                     </div>
                     <div class="class-list-tit clear"></div>

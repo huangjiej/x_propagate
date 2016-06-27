@@ -13,9 +13,13 @@
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <!-- @NOPARSE -->
     <script>
+
         var userinfoParam = "openid=<?=$userinfo['openid']?>&nickname=<?=$userinfo['nickname']?>&language=<?=$userinfo['language']?>&unionid=<?=$userinfo['unionid']?>&province=<?=$userinfo['province']?>&city=<?=$userinfo['city']?>&country=<?=$userinfo['country']?>&headimgurl=<?=$userinfo['headimgurl']?>&Ticket=<?=$userinfo['qr_ticket']?>&tagidist=";
         sendUserInfo(userinfoParam);
+
+        //原用户想分享的链接
         var localhref=window.location.href;
+        //生成分享链接
         var sharehref=add4share(localhref);
         wx.config({
             appId: '<?=  $js_sign['appid']?>',

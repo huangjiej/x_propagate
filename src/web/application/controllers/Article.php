@@ -22,7 +22,7 @@ class ArticleController extends Mall {
 
     public function showAction() {
         //查询文章详情
-        $articleid=I('articleid');
+        $articleid=I('x_articleId');
         $article = new ArticleModel();
         $item =$article->getDetail($articleid);
         $this->assign('item',$item);
