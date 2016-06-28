@@ -96,7 +96,7 @@ class CallbackController extends Core\Wechat  {
 
     private function _subscribe($userinfo){
 
-        $model = new WxUserModel();
+        $model = new WxCustomerModel();
         //用户注册
         if($model->save($userinfo)){
             SeasLog::debug('微信关注用户信息保存成功了!');
@@ -141,7 +141,7 @@ class CallbackController extends Core\Wechat  {
 
         $user_token = $this->_getWxuserToken();
 
-        $model = new WxUserModel();
+        $model = new WxCustomerModel();
         $user_info = $model->getUser($user_token['openid']);
 
         SeasLog::debug($model->last_query());

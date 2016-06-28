@@ -15,9 +15,7 @@
     <script>
 
         var userinfoParam = "openid=<?=$userinfo['openid']?>&nickname=<?=$userinfo['nickname']?>&language=<?=$userinfo['language']?>&unionid=<?=$userinfo['unionid']?>&province=<?=$userinfo['province']?>&city=<?=$userinfo['city']?>&country=<?=$userinfo['country']?>&headimgurl=<?=$userinfo['headimgurl']?>&Ticket=<?=$userinfo['qr_ticket']?>&tagidist=";
-        console.log(userinfoParam);
         sendUserInfo(userinfoParam);
-
         //原用户想分享的链接
         var localhref=window.location.href;
         //生成分享链接

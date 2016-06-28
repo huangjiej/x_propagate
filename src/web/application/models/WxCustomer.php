@@ -7,9 +7,9 @@
  * @copyright Copyright (c) 2014
  */
 
-class WxUserModel extends Model{
+class WxCustomerModel extends Model{
 
-    public $table = 't_wx_user';
+    public $table = 't_wx_customer';
 
     public function save(Array $data){
 

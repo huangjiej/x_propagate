@@ -27,12 +27,13 @@ class ArticleController extends Mall {
         $item =$article->getDetail($articleid);
         $this->assign('item',$item);
         //保存阅读记录
-        $user = new WxUserModel();
+        $user = new WxCustomerModel();
         $readartilce=new ReadArticleModel();
         $oriuserid=I('userid',$item['userid']);
         $wxuser = $user->getUser($this->user['openid']);
         if(empty($wxuser)){
-            $wxuser=$user->save(['openid'=>$this->user['openid']]);
+            $user->save(['openid'=>$this->user['openid']]);
+            $wxuser = $user->getUser($this->user['openid']);
         }
         $this->assign('user',json_encode($wxuser));
         $this->assign('userinfo',$wxuser);
@@ -87,7 +88,7 @@ class ArticleController extends Mall {
         $articleid=I('articleid');
         $article = new ArticleModel();
         $item =$article->getDetail($articleid);
-        $user = new WxUserModel();
+        $user = new WxCustomerModel();
         $shareartilce=new ShareArticleModel();
         $oriuserid=I('userid',$item['userid']);
         $wxuser = $user->getUser($this->user['openid']);
