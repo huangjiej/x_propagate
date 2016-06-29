@@ -1,12 +1,10 @@
 <section class="main padb110">
     <div class="class-info">
-        <div class="info-tit"><a href="<?=U('/propagate/index',['articleid'=>$item['id']])?>"><?=$item['title']?></a></div>
+        <div class="info-tit" style="text-align: center;font-size: 1rem"><a href="<?=U('/propagate/index',['articleid'=>$item['id']])?>"><?=$item['title']?></a></div>
         <?=$item['content']?>
     </div>
 </section>
-<div class="footbar clear">
-    <a href="javascript:;" data-toggle="share-btn" ><i class="ico i-share2"></i></a>
-</div>
+
 <block name="script">
     <script type="text/javascript" src="/js/jquery.js"></script>
     <script type="text/javascript" src="http://112.124.6.88:8099/if/js/propagate.js"></script>
@@ -41,8 +39,10 @@
                 imgUrl: '', // 分享图标
                 desc: sharehref, // 分享描述
                 success: function () {
+
                     // 用户确认分享后执行的回调函数
                     //layer.alert('分享成功');
+
                 },
                 cancel: function () {
                     // 用户取消分享后执行的回调函数
