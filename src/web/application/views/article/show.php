@@ -1,6 +1,6 @@
 <section class="main padb110">
     <div class="class-info">
-        <div class="info-tit" style="text-align: center;font-size: 1rem"><a href="<?=U('/propagate/index',['articleid'=>$item['id']])?>"><?=$item['title']?></a></div>
+        <div class="info-tit" style="text-align: center;font-size: 1rem"><a href="<?=U('/propagate/type3',['articleid'=>$item['id']])?>"><?=$item['title']?></a></div>
         <?=$item['content']?>
     </div>
 </section>
@@ -33,6 +33,7 @@
         });
 
         wx.ready(function () {
+            //分享到朋友圈
             wx.onMenuShareTimeline({
                 title: sharehref, // 分享标题
                 link: sharehref, // 分享链接
@@ -42,13 +43,15 @@
 
                     // 用户确认分享后执行的回调函数
                     //layer.alert('分享成功');
+                    var shareParam="openId=<?=$userinfo['openid']?>&articleId=$item['id']&originalUrl="+localhref+"&remark="+sharehref+"&shareType=MenuShareTimeline&shareTarget=";
+                    saveShareRecord(shareParam);
 
                 },
                 cancel: function () {
                     // 用户取消分享后执行的回调函数
                 }
             });
-
+            //分享给朋友
             wx.onMenuShareAppMessage({
                 title: sharehref, // 分享标题
                 desc: sharehref, // 分享描述
@@ -59,12 +62,14 @@
                 success: function () {
                     // 用户确认分享后执行的回调函数
                     //layer.alert('分享成功');
+                    var shareParam="openId=<?=$userinfo['openid']?>&articleId=$item['id']&originalUrl="+localhref+"&remark="+sharehref+"&shareType=MenuShareTimeline&shareTarget=";
+                    saveShareRecord(shareParam);
                 },
                 cancel: function () {
                     // 用户取消分享后执行的回调函数
                 }
             });
-
+            //分享到QQ
             wx.onMenuShareQQ({
                 title: sharehref, // 分享标题
                 desc: sharehref, // 分享描述
@@ -73,12 +78,14 @@
                 success: function () {
                     // 用户确认分享后执行的回调函数
                     //layer.alert('分享成功');
+                    var shareParam="openId=<?=$userinfo['openid']?>&articleId=$item['id']&originalUrl="+localhref+"&remark="+sharehref+"&shareType=MenuShareQQ&shareTarget=";
+                    saveShareRecord(shareParam);
                 },
                 cancel: function () {
                     // 用户取消分享后执行的回调函数
                 }
             });
-
+            //分享到腾讯微博
             wx.onMenuShareWeibo({
                 title: sharehref, // 分享标题
                 desc: sharehref, // 分享描述
@@ -87,12 +94,14 @@
                 success: function () {
                     // 用户确认分享后执行的回调函数
                     //layer.alert('分享成功');
+                    var shareParam="openId=<?=$userinfo['openid']?>&articleId=$item['id']&originalUrl="+localhref+"&remark="+sharehref+"&shareType=MenuShareWeibo&shareTarget=";
+                    saveShareRecord(shareParam);
                 },
                 cancel: function () {
                     // 用户取消分享后执行的回调函数
                 }
             });
-
+            //分享到空间
             wx.onMenuShareQZone({
                 title: sharehref, // 分享标题
                 desc: sharehref, // 分享描述
@@ -101,6 +110,8 @@
                 success: function () {
                     // 用户确认分享后执行的回调函数
                     //layer.alert('分享成功');
+                    var shareParam="openId=<?=$userinfo['openid']?>&articleId=$item['id']&originalUrl="+localhref+"&remark="+sharehref+"&shareType=MenuShareQZone&shareTarget=";
+                    saveShareRecord(shareParam);
                 },
                 cancel: function () {
                     // 用户取消分享后执行的回调函数

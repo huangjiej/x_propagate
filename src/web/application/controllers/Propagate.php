@@ -32,10 +32,11 @@ class PropagateController extends Mall {
         $model = new ArticlePropagateModel();
         //$tree = $model->getByArticleid($articleid);
 
-
-        $tree = M()->query("select a.userid,a.name,a.parent_id ,COUNT(b.id) readnum from t_article_propagate a
+        $sql="select a.userid,a.name,a.parent_id ,COUNT(b.id) readnum from t_article_propagate a
 left JOIN t_read_article b on b.original_userid=a.userid
-where a.article_id=1 GROUP BY a.userid LIMIT 30")->fetchAll();
+where a.article_id=".$articleid." GROUP BY a.userid LIMIT 30";
+
+        $tree = M()->query($sql)->fetchAll();
         /*$tree = M('t_article_propagate(a)')->select(
             ['a.userid','a.name','a.parent_id' ,'COUNT(b.id) readnum'],
             [
