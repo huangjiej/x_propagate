@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <title><?= isset($meta_title) ? $meta_title.' - ' : ''?>土筑虎</title>
+    <title><?= isset($meta_title) ? $meta_title.' - ' : ''?>猫儿文章</title>
     <link rel="stylesheet" href="/style/reset.css">
     <link rel="stylesheet" href="/style/main.css">
     <link rel="stylesheet" href="/style/weui.css">
