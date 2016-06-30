@@ -34,27 +34,18 @@ class PropagateController extends Mall {
 
         $sql="select a.userid,a.name,a.parent_id ,COUNT(b.id) readnum from t_article_propagate a
 left JOIN t_read_article b on b.original_userid=a.userid
-where a.article_id=".$articleid." GROUP BY a.userid LIMIT 30";
+where a.article_id=".$articleid." GROUP BY a.userid ";
 
         $tree = M()->query($sql)->fetchAll();
-        /*$tree = M('t_article_propagate(a)')->select(
-            ['a.userid','a.name','a.parent_id' ,'COUNT(b.id) readnum'],
-            [
-                [
-                    '[>]t_read_article(b)' => ['a.userid'=>'b.original_userid']
-                ],
-                'AND' => [
-                    'a.article_id'=>$articleid,
-                    'a.status'=> 'OK#'
-                ],
-                "LIMIT" => [0,30]
-                ,
-                "GROUP BY"=>['a.userid']
-            ]
-        );*/
         $nodes=[];
         $links=[];
         $i=0;
+        $user = new WxCustomerModel();
+        $wxuser = $user->getUser($this->user['openid']);
+        if(empty($wxuser)){
+            $user->save(['openid'=>$this->user['openid']]);
+            $wxuser = $user->getUser($this->user['openid']);
+        }
         foreach($tree as $key=> $item){
             $nodes[$key]['category']=0;
             $nodes[$key]['name']=$item['userid'];
@@ -66,7 +57,9 @@ where a.article_id=".$articleid." GROUP BY a.userid LIMIT 30";
                 $links[$i]['weight']=2;
                 $i=$i+1;
             }
+            if($wxuser['userid']==$item['userid']){
 
+            }
         }
         $this->assign('nodes', json_encode($nodes));
         $this->assign('links', json_encode($links));

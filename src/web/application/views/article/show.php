@@ -7,12 +7,12 @@
 
 <block name="script">
     <script type="text/javascript" src="/js/jquery.js"></script>
-    <script type="text/javascript" src="http://112.124.6.88:8099/if/js/propagate.js"></script>
+    <script type="text/javascript" src="http://112.124.6.88:8099/if/js/propagate.js?x_article=<?=isset($item['id'])?$item['id']:null?>"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <!-- @NOPARSE -->
     <script>
 
-        var userinfoParam = "openid=<?=$userinfo['openid']?>&nickname=<?=$userinfo['nickname']?>&language=<?=$userinfo['language']?>&unionid=<?=$userinfo['unionid']?>&province=<?=$userinfo['province']?>&city=<?=$userinfo['city']?>&country=<?=$userinfo['country']?>&headimgurl=<?=$userinfo['headimgurl']?>&Ticket=<?=$userinfo['qr_ticket']?>&tagidist=";
+        var userinfoParam = "openid=<?=isset($userinfo['openid'])?$userinfo['openid']:null ?>&nickname=<?=$userinfo['nickname']?>&language=<?=$userinfo['language']?>&unionid=<?=$userinfo['unionid']?>&province=<?=$userinfo['province']?>&city=<?=$userinfo['city']?>&country=<?=$userinfo['country']?>&headimgurl=<?=$userinfo['headimgurl']?>&Ticket=<?=$userinfo['qr_ticket']?>&tagidist=";
         sendUserInfo(userinfoParam);
         //原用户想分享的链接
         var localhref=window.location.href;
@@ -43,7 +43,7 @@
 
                     // 用户确认分享后执行的回调函数
                     //layer.alert('分享成功');
-                    var shareParam="openId=<?=$userinfo['openid']?>&articleId=$item['id']&originalUrl="+localhref+"&remark="+sharehref+"&shareType=MenuShareTimeline&shareTarget=";
+                    var shareParam="shareType=MenuShareTimeline";
                     saveShareRecord(shareParam);
 
                 },
@@ -62,7 +62,7 @@
                 success: function () {
                     // 用户确认分享后执行的回调函数
                     //layer.alert('分享成功');
-                    var shareParam="openId=<?=$userinfo['openid']?>&articleId=$item['id']&originalUrl="+localhref+"&remark="+sharehref+"&shareType=MenuShareTimeline&shareTarget=";
+                    var shareParam="shareType=MenuShareTimeline";
                     saveShareRecord(shareParam);
                 },
                 cancel: function () {
@@ -78,7 +78,7 @@
                 success: function () {
                     // 用户确认分享后执行的回调函数
                     //layer.alert('分享成功');
-                    var shareParam="openId=<?=$userinfo['openid']?>&articleId=$item['id']&originalUrl="+localhref+"&remark="+sharehref+"&shareType=MenuShareQQ&shareTarget=";
+                    var shareParam="shareType=MenuShareTimeline";
                     saveShareRecord(shareParam);
                 },
                 cancel: function () {
@@ -94,7 +94,7 @@
                 success: function () {
                     // 用户确认分享后执行的回调函数
                     //layer.alert('分享成功');
-                    var shareParam="openId=<?=$userinfo['openid']?>&articleId=$item['id']&originalUrl="+localhref+"&remark="+sharehref+"&shareType=MenuShareWeibo&shareTarget=";
+                    var shareParam="shareType=MenuShareTimeline";
                     saveShareRecord(shareParam);
                 },
                 cancel: function () {
@@ -110,7 +110,7 @@
                 success: function () {
                     // 用户确认分享后执行的回调函数
                     //layer.alert('分享成功');
-                    var shareParam="openId=<?=$userinfo['openid']?>&articleId=$item['id']&originalUrl="+localhref+"&remark="+sharehref+"&shareType=MenuShareQZone&shareTarget=";
+                    var shareParam="shareType=MenuShareTimeline";
                     saveShareRecord(shareParam);
                 },
                 cancel: function () {
