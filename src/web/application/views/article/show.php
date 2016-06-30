@@ -7,7 +7,7 @@
 
 <block name="script">
     <script type="text/javascript" src="/js/jquery.js"></script>
-    <script type="text/javascript" src="http://112.124.6.88:8099/if/js/propagate.js?x_article=<?=isset($item['id'])?$item['id']:null?>"></script>
+    <script type="text/javascript" src="http://112.124.6.88:8099/if/js/propagate.js?x_articleId=<?=isset($item['id'])?$item['id']:null?>"></script>
     <script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
     <!-- @NOPARSE -->
     <script>
